@@ -1,17 +1,8 @@
-import { Id, Tasks } from './todos.interfaces';
-import { IsArray, IsNumber, IsString } from 'class-validator';
+import { Id } from './todos.interfaces';
+import { IsNumber } from 'class-validator';
 
-export class TodosDto {
+export class TodosIdDto {
   @IsNumber()
   id: Id;
-
-  @IsArray()
-  @IsString({ each: true })
-  tasks: Tasks;
-
-  @IsArray()
-  @IsNumber()
-  parentsId: Id[];
 }
-
 

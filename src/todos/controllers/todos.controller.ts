@@ -25,7 +25,7 @@ export class TodosController {
   }
 
   @Delete(":id")
-  async removeTodo(@Param("id") id: Id) {
+  async removeTodo(@Param("id" ) id: Id) {
     return await this.todoService.removeTodo(id);
   }
 
@@ -34,9 +34,8 @@ export class TodosController {
     return await this.todoService.removeTask(id, taskIndex);
   }
 
-  @Put(":id/tasks")
+  @Post(":id/tasks")
   async addTask(@Param("id") id: Id, @Body("task") task: string) {
     return await this.todoService.addTask(id, task);
   }
-
 }
