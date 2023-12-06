@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { Id, Tasks } from './todos.interfaces';
+import { Id, Tasks } from '../todos.interfaces';
 
 @Entity()
 export class Todo {
