@@ -1,6 +1,6 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
-import { Todo } from "./src/todos/todos.entity";
+import { Todo } from "./src/todos/service/todos.entity";
 
 dotenv.config();
 

@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository} from "@nestjs/typeorm";
-import { Todo } from "../todos.entity";
-import { Id } from "../todos.interfaces";
+import { Todo } from "./todos.entity";
+import { Id } from "../interfaces/todos.interfaces";
 import { Repository } from "typeorm";
 
 @Injectable()
@@ -17,13 +17,18 @@ export class TodosService {
   async getTodoById(id: Id): Promise<Todo | null> {
     return this.todoRepository.findOneBy({ id: id });
   }
-  async addTodo(parentsId: Id[], parent: Id): Promise<Todo | null> {
-    const parents = parentsId.concat(parent);
+  async addTodo(parentsId: Id[], parentId: Id): Promise<Todo | null> {
+    const parents = parentsId.concat(parentId);
     const newTodo = this.todoRepository.create({
       tasks: [],
       parentsId: parents,
+      childrenId: [],
     });
-    return this.todoRepository.save(newTodo);
+    const savedTodo = await this.todoRepository.save(newTodo);
+    const parentElement = await this.todoRepository.findOneBy({ id: parentId });
+    if (!parentElement) return savedTodo;
+    parentElement.childrenId.push(savedTodo.id);
+    return savedTodo;
   }
   async removeTodo(id: Id): Promise<boolean> {
     try {

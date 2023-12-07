@@ -4,5 +4,6 @@ export type Tasks = Array<string>;
 export interface ITodo {
   id: Id;
   tasks: Tasks;
-  parentId: Id[];
+  parentsId: Id[];
+  childrenId: Id[];
 }
