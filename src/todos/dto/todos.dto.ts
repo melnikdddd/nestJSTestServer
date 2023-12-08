@@ -1,4 +1,4 @@
-import { Id, Tasks } from "../interfaces/todos.interfaces";
+import { Id } from "../interfaces/todos.interfaces";
 import { IsArray, IsNumber, IsOptional, IsString } from "class-validator";
 
 export class AddTodoDto {
@@ -17,9 +17,8 @@ export class IdTodoDto {
 }
 
 export class AddTaskDto {
-  @IsArray()
   @IsString()
-  tasks: string[];
+  task: string;
 }
 
 export class TaskIndexDto {

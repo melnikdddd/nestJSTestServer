@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository} from "@nestjs/typeorm";
 import { Todo } from "./todos.entity";
-import { Id } from "../interfaces/todos.interfaces";
+import {Id, Task} from "../interfaces/todos.interfaces";
 import { Repository } from "typeorm";
 
 @Injectable()
@@ -28,9 +28,10 @@ export class TodosService {
     const parentElement = await this.todoRepository.findOneBy({ id: parentId });
     if (!parentElement) return savedTodo;
     parentElement.childrenId.push(savedTodo.id);
+    await this.todoRepository.save(parentElement);
     return savedTodo;
   }
-  async removeTodo(id: Id): Promise<boolean> {
+  async removeTodo(id: Id, parentId: Id): Promise<boolean> {
     try {
       await this.todoRepository
         .createQueryBuilder()
@@ -39,13 +40,16 @@ export class TodosService {
         .where(':id = ANY(parentsId)', { id })
         .execute();
       await this.todoRepository.delete({ id: id });
+      const parent = await this.todoRepository.findOneBy({id: parentId});
+      parent.childrenId = parent.childrenId.filter(childId => childId !== id);
+      await this.todoRepository.save(parent);
       return true;
     } catch (error) {
       console.log(error);
       return false;
     }
   }
-  async addTask(todoId: Id, task: string): Promise<Todo> {
+  async addTask(todoId: Id, task: Task): Promise<Todo> {
     const todo = await this.todoRepository.findOneBy({ id: todoId });
     if (!todo) {
       return null;

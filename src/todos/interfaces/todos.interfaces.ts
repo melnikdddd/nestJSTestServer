@@ -1,9 +1,9 @@
 export type Id = number;
-export type Tasks = Array<string>;
+export type Task = string;
 
 export interface ITodo {
   id: Id;
-  tasks: Tasks;
+  tasks: Task[];
   parentsId: Id[];
   childrenId: Id[];
 }

@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { Id, Tasks } from "../interfaces/todos.interfaces";
+import {Id, Task} from "../interfaces/todos.interfaces";
 
 @Entity()
 export class Todo {
@@ -7,7 +7,7 @@ export class Todo {
   id: Id;
 
   @Column("text", { array: true })
-  tasks: Tasks;
+  tasks: Task[];
 
   @Column("integer", { array: true })
   parentsId: Id[];
