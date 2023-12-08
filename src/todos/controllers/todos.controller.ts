@@ -51,4 +51,13 @@ export class TodosController {
         @Param("id") id: Id, @Body("task") task: Task) {
         return await this.todoService.addTask(id, task);
     }
+
+    @Put(':id/tasks')
+    async updateTask(
+        @Param('id', ParseIntPipe) id: Id,
+        @Query('taskIndex', ParseIntPipe) taskIndex: number,
+        @Body('task') task: Task,
+    ){
+        return await this.todoService.updateTask(id, taskIndex, task);
+    }
 }

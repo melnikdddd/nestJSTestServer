@@ -13,7 +13,6 @@ export class TodosService {
   async getAll(): Promise<Todo[]> {
     return this.todoRepository.find();
   }
-
   async getTodoById(id: Id): Promise<Todo | null> {
     return this.todoRepository.findOneBy({ id: id });
   }
@@ -64,5 +63,16 @@ export class TodosService {
     }
     todo.tasks.splice(taskIndex, 1);
     return await this.todoRepository.save(todo);
+  }
+
+  async updateTask(todoId: Id, taskIndex: number, task: Task){
+    const todo = await this.todoRepository.findOneBy({ id: todoId });
+
+    console.log(todoId, taskIndex, task);
+    if (!todo){
+      return null;
+    }
+    todo.tasks[taskIndex] = task;
+    return  await this.todoRepository.save(todo);
   }
 }
